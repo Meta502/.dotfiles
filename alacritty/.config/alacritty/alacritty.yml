@@ -11,7 +11,8 @@ font: {
         family: "SauceCodePro Nerd Font Mono",
         style: "Regular"
     },
-    size: 10
+    size: 10,
+    scale_with_dpi: false
 }
 
 cursor: {
