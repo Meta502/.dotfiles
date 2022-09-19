@@ -21,7 +21,6 @@ window {
     background-color: @background;
     border:           0;
     padding:          32;
-    border-radius: 8;
     width: 30%;
 }
 listview {

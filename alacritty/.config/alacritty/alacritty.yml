@@ -3,7 +3,7 @@ window: {
         x: 16,
         y: 16
     },
-    opacity: 1.0
+    opacity: 0.85
 }
 
 font: {

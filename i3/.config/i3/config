@@ -15,6 +15,23 @@ exec --no-startup-id ~/set_once_i3.sh
 # EndeavourOS wiki holds some Information also: https://discovery.endeavouros.com/window-tiling-managers/i3-wm/
 # Please see http://i3wm.org/docs/userguide.html for the official i3 reference!
 
+set $base00 #282c34
+set $base01 #353b45
+set $base02 #3e4451
+set $base03 #545862
+set $base04 #565c64
+set $base05 #abb2bf
+set $base06 #b6bdca
+set $base07 #c8ccd4
+set $base08 #e06c75
+set $base09 #d19a66
+set $base0A #e5c07b
+set $base0B #98c379
+set $base0C #56b6c2
+set $base0D #61afef
+set $base0E #c678dd
+set $base0F #be5046
+
 #######################
 # config starts here: #
 #######################
@@ -55,13 +72,11 @@ new_window pixel 1
 
 # Set inner/outer gaps
 for_window [class=".*"] border pixel 2 #*
-gaps inner 8
-gaps outer 4
-gaps top 44
+gaps inner 4
+gaps outer 2
 
 smart_borders on
 smart_borders no_gaps
-border_radius 8
 
 # show window title bars (not officially supported with i3gaps)
 #default_border normal
@@ -211,8 +226,8 @@ bindsym $mod+Shift+r restart
 # bindsym $mod+F1 exec xed ~/.config/i3/keybindings
 
 # Backlight control
-bindsym XF86MonBrightnessUp exec brightnessctl set +5% && notify-send "Brightness - $(())%"
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%- && notify-send "Brightness - $()%"
+bindsym XF86MonBrightnessUp exec xbacklight +5 && notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
+bindsym XF86MonBrightnessDown exec xbacklight -5 && notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
 
 # change focus
 bindsym $mod+j focus left
@@ -353,7 +368,7 @@ for_window [class=TelegramDesktop] focus
 # For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf
 
 # using default config 
-exec_always --no-startup-id picom --experimental-backends -b
+exec_always --no-startup-id picom -b
 
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
@@ -393,14 +408,14 @@ exec --no-startup-id sleep 2 && nitrogen --restore
 #exec --no-startup-id feh --bg-fill /usr/share/endeavouros/backgrounds/endeavouros_i3.png
 
 # set powersavings for display:
-exec --no-startup-id xset s 480 dpms 600 600 600
+# exec --no-startup-id xset s 480 dpms 600 600 600
 
 # disable power saving (for example if using xscreensaver)
-#exec --no-startup-id xset -dpms
+exec --no-startup-id xset -dpms
 
 # use xautolock to use autosuspend rules for mobile devices
 # https://wiki.archlinux.org/title/Session_lock#xautolock
-#exec --no-startup-id xautolock -time 60 -locker "systemctl suspend"
+exec --no-startup-id xautolock -time 300 -locker "systemctl suspend"
 
 
 # xscreensaver
@@ -496,67 +511,36 @@ client.background       #F8F8F2
 # bar settings (input comes from i3blocks) #
 ############################################
 
-# Start i3bar to display a workspace bar
-# (plus the system information i3status finds out, if available)
-#bar {
-	#	font pango: Noto Sans Regular 10
-		#status_command sh ~/scripts/launch_polybar.sh
-	    #	position top
-#	    	i3bar_command i3bar --transparency
-# it could be that you have no primary display set: set one (xrandr --output <output> --primary)
-# reference: https://i3wm.org/docs/userguide.html#_tray_output
-	#	    tray_output primary
-	#	    tray_padding 0
+bar {
+    font pango: Noto Sans Regular 10
+    status_command bumblebee-status -m cpu memory battery  \
+        pasink pasource nic ping time dunstctl \
+        -p cpu.theme.minwidth=12 -p cpu.theme.align=center \
+        -p memory.theme.minwidth=48 -p memory.theme.align=center \
+        -p battery.theme.minwidth=9 -p battery.theme.align=center \
+        -p time.theme.minwidth=10 -p time.theme.align=center -p time.format="%H:%M" \
+        -p nic.states=^down -p nic.exclude='lo,virbr,docker,vboxnet,veth,br,.*:avahi,CloudflareWARP' \
+        -p nic.format='{intf} {ip} {strength}' ping.address='1.1.1.1' \
+        -t iceberg-dark-powerline
 
-# When strip_workspace_numbers is set to yes,
-# any workspace that has a name of the form
-# “[n][:][NAME]” will display only the name.
-#strip_workspace_numbers no
-##strip_workspace_name no
- # colors {
-  #  background #282A36
-   # statusline #F8F8F2
-    #separator  #44475A
+    position top
+    i3bar_command i3bar --transparency
+    tray_output none
+    tray_padding 0
 
-    #focused_workspace  #44475A #44475A #F8F8F2
-    #active_workspace   #282A36 #44475A #F8F8F2
-   # inactive_workspace #282A36 #282A36 #BFBFBF
-   # urgent_workspace   #FF5555 #FF5555 #F8F8F2
-   # binding_mode       #FF5555 #FF5555 #F8F8F2
-  #}
+    colors {
+        background #2629398f
+        separator  $base01
+        statusline $base04
 
-#}
-
-# you can add different bars for multidisplay setups on each display:
-# set output HDMI-0 to the display you want the bar, --transparency can be set.
-# Transparency needs rgba color codes to be used where the last two letters are the transparency factor see here:
-# https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
-# #08052be6 --> e6=90%
-
-# bar {
-#	font pango: Noto Sans Regular 10
-#	status_command i3blocks -c ~/.config/i3/i3blocks-2.conf
-#	i3bar_command i3bar --transparency
-#	output HDMI-0
-#	position bottom
-#
-# When strip_workspace_numbers is set to yes,
-# any workspace that has a name of the form
-# “[n][:][NAME]” will display only the name.
-#strip_workspace_numbers yes
-##strip_workspace_name no
-#
-#	colors {
-#		separator          $purple
-#		background         $darkbluetrans
-#        	statusline         $white
-#					border		bg		txt		indicator
-#		focused_workspace	$lighterblue	$lighterblue	$darkblue	$purple
-#		active_workspace	$lightdblue	$lightdblue	$darkblue	$purple
-#		inactive_workspace	$darkblue	$darkblue	$lightdblue	$purple
-#		urgent_workspace	$urgentred	$urgentred	$white		$purple
-#	}
-#}
+        # State             Border  BG      Text
+        focused_workspace   #84a0c6 #84a0c6 $base00
+        active_workspace    $base03 #2629398f $base05
+        inactive_workspace  $base01 #2629398f $base05
+        urgent_workspace    $base08 $base08 $base00
+        binding_mode        $base0A $base0A $base00
+    }
+}
 
 #####################################
 # Application menu handled by rofi: #
@@ -580,9 +564,9 @@ bindsym $mod+t exec rofi -show window \
 
 ## rofi bindings to manage clipboard (install rofi-greenclip from the AUR)
 
-#exec --no-startup-id greenclip daemon>/dev/null
-#bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard \
-#		-config ~/.config/rofi/rofidmenu.rasi
+exec --no-startup-id greenclip daemon>/dev/null
+bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard \
+		-config ~/.config/rofi/rofidmenu.rasi
 set $monitor_primary eDP-1
 set $monitor_external HDMI-2
 
