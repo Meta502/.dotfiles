@@ -71,12 +71,13 @@ new_window pixel 1
 # hide_edge_borders both
 
 # Set inner/outer gaps
-for_window [class=".*"] border pixel 2 #*
+# for_window [class=".*"] border pixel 2 #*
 gaps inner 4
 gaps outer 2
 
-smart_borders on
-smart_borders no_gaps
+#smart_borders on
+#smart_borders no_gaps
+for_window [class="^.*"] border pixel 0
 
 # show window title bars (not officially supported with i3gaps)
 #default_border normal
@@ -95,16 +96,17 @@ set $monitor_primary eDP-1
 set $monitor_external HDMI-2
 
 # switch to workspace
-bindsym $mod+1    workspace  $ws1
-bindsym $mod+2    workspace  $ws2
-bindsym $mod+3    workspace  $ws3
-bindsym $mod+4    workspace  $ws4
-bindsym $mod+5    workspace  $ws5
-bindsym $mod+6    workspace  $ws6
-bindsym $mod+7    workspace  $ws7
-bindsym $mod+8    workspace  $ws8
-bindsym $mod+9    workspace  $ws9
-bindsym $mod+0    workspace  $ws10
+bindsym $mod+1        workspace  $ws1
+bindsym $mod+2        workspace  $ws2
+bindsym $mod+3        workspace  $ws3
+bindsym $mod+4        workspace  $ws4
+bindsym $mod+5        workspace  $ws5
+bindsym $mod+6        workspace  $ws6
+bindsym $mod+7        workspace  $ws7
+bindsym $mod+8        workspace  $ws8
+bindsym $mod+9        workspace  $ws9
+bindsym $mod+0        workspace  $ws10
+bindsym $mod+minus    workspace  $ws11
 
 # switch to workspace with numpad keys
 bindcode $mod+87 workspace 1
@@ -323,6 +325,7 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 ""
 
 # use workspaces on different displays:
 # where you have to replace VGA-0/HDMI-0 with the names for your displays
@@ -344,6 +347,7 @@ for_window [class=(?i)firefox] focus
 for_window [class=Thunar] focus
 for_window [class=Thunderbird] focus
 for_window [class=TelegramDesktop] focus
+for_window [class="Spotify"] move container to workspace $ws11
 
 ##############
 # compositor #
@@ -369,6 +373,8 @@ for_window [class=TelegramDesktop] focus
 
 # using default config 
 exec_always --no-startup-id picom -b
+
+exec_always --no-startup-id xborders --border-radius 4 --border-width 2 --border-rgba=#84a0c6FF
 
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
@@ -471,7 +477,7 @@ for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 
 # set border of floating window
-for_window [class="urxvt"] border pixel 1
+#for_window [class="urxvt"] border pixel 1
 
 # set size of floating window
 #for_window [window_role="(?i)GtkFileChooserDialog"] resize set 640 480 #to set size of file choose dialog
@@ -513,14 +519,15 @@ client.background       #F8F8F2
 
 bar {
     font pango: Noto Sans Regular 10
-    status_command bumblebee-status -m cpu memory battery  \
-        pasink pasource nic ping time dunstctl \
+    status_command bumblebee-status -m playerctl cpu memory battery  \
+        pasink pasource nic ping time dunstctl caffeine \
         -p cpu.theme.minwidth=12 -p cpu.theme.align=center \
         -p memory.theme.minwidth=48 -p memory.theme.align=center \
         -p battery.theme.minwidth=9 -p battery.theme.align=center \
         -p time.theme.minwidth=10 -p time.theme.align=center -p time.format="%H:%M" \
         -p nic.states=^down -p nic.exclude='lo,virbr,docker,vboxnet,veth,br,.*:avahi,CloudflareWARP' \
         -p nic.format='{intf} {ip} {strength}' ping.address='1.1.1.1' \
+        -p playerctl.format='{{artist}} - {{trunc(title, 8)}}  {{duration(position)}}/{{duration(mpris:length)}}' -p playerctl.hide=true \
         -t iceberg-dark-powerline
 
     position top
