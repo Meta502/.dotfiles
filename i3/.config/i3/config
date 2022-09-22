@@ -307,7 +307,6 @@ bindsym Print exec flameshot gui
 
 # Power Profiles menu switcher (rofi)
 bindsym $mod+Shift+p exec ~/.config/i3/scripts/power-profiles
-bindsym $mod+Shift+w exec polybar-msg cmd toggle
 
 ##########################################
 # configuration for workspace behaviour: #
@@ -518,15 +517,15 @@ client.background       #F8F8F2
 ############################################
 
 bar {
-    font pango: Noto Sans Regular 10
+    font pango: Noto Mono for Powerline 11
     status_command bumblebee-status -m playerctl cpu memory battery  \
         pasink pasource nic ping time dunstctl caffeine \
-        -p cpu.theme.minwidth=12 -p cpu.theme.align=center \
-        -p memory.theme.minwidth=48 -p memory.theme.align=center \
-        -p battery.theme.minwidth=9 -p battery.theme.align=center \
+        -p cpu.theme.minwidth=6 -p cpu.theme.align=center \
+        -p memory.theme.minwidth=28 -p memory.theme.align=center \
+        -p battery.theme.minwidth=5 -p battery.theme.align=center \
         -p time.theme.minwidth=10 -p time.theme.align=center -p time.format="%H:%M" \
         -p nic.states=^down -p nic.exclude='lo,virbr,docker,vboxnet,veth,br,.*:avahi,CloudflareWARP' \
-        -p nic.format='{intf} {ip} {strength}' ping.address='1.1.1.1' \
+        -p nic.format='{intf} {strength}' ping.address='1.1.1.1' \
         -p playerctl.format='{{artist}} - {{trunc(title, 8)}}  {{duration(position)}}/{{duration(mpris:length)}}' -p playerctl.hide=true \
         -t iceberg-dark-powerline
 
@@ -585,4 +584,3 @@ exec imwheel
 exec --no-startup-id clipcatd
 exec conky -q -c /home/meta/.config/conky/conky2.conf
 exec conky -q
-exec --no-startup-id /home/meta/script/launch_polybar.sh

@@ -5,7 +5,7 @@
  * Maintainer: joekamprad <joekamprad@endeavouros.com>
  *******************************************************/
 configuration {
-    font:				"SauceCodePro Nerd Font Mono 10";
+    font:				"SauceCodePro Nerd Font Mono 12";
     show-icons:				true;
     icon-theme:				"Qogir";
     display-drun:			"Apps";
