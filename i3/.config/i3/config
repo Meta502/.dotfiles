@@ -72,11 +72,11 @@ new_window pixel 1
 
 # Set inner/outer gaps
 # for_window [class=".*"] border pixel 2 #*
-gaps inner 4
-gaps outer 2
+gaps inner 8
+gaps outer 4
 
-#smart_borders on
-#smart_borders no_gaps
+smart_borders on
+smart_borders no_gaps
 for_window [class="^.*"] border pixel 0
 
 # show window title bars (not officially supported with i3gaps)
@@ -196,6 +196,8 @@ bindcode $mod+Shift+90 	 move container to workspace  $ws10
 ######################################
 # keybindings for different actions: #
 ######################################
+# control panel
+bindsym $mod+u exec ~/.config/rofi/applets/custom/custom.sh
 
 # start a terminal
 bindsym $mod+Return exec alacritty
@@ -204,7 +206,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+q kill
 
 # exit-menu
-bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu
+bindsym $mod+Shift+e exec ~/.config/rofi/powermenu/type-1/powermenu.sh
 
 # stickers
 bindsym $mod+space exec ~/script/discord-emote-menu/emote.sh -c -r ~/script/discord-emote-menu/sample.rofi
@@ -228,9 +230,8 @@ bindsym $mod+Shift+r restart
 # bindsym $mod+F1 exec xed ~/.config/i3/keybindings
 
 # Backlight control
-bindsym XF86MonBrightnessUp exec xbacklight +5 && notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
-bindsym XF86MonBrightnessDown exec xbacklight -5 && notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5% && notify-send "Brightness - $(())%"
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- && notify-send "Brightness - $()%"
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -302,7 +303,7 @@ bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
 bindsym $mod+w exec /usr/bin/firefox
-bindsym $mod+n exec bash ~/script/notification.sh | rofi -dmenu -eh 3 -sep '|' -config ~/.config/rofi/rofidmenu.rasi -i
+# bindsym $mod+n exec ~/.config/rofi/notifications/notifications.sh
 bindsym Print exec flameshot gui
 
 # Power Profiles menu switcher (rofi)
@@ -373,7 +374,7 @@ for_window [class="Spotify"] move container to workspace $ws11
 # using default config 
 exec_always --no-startup-id picom -b
 
-exec_always --no-startup-id xborders --border-radius 4 --border-width 2 --border-rgba=#84a0c6FF
+exec_always --no-startup-id xborders --border-radius 4 --border-width 1 --border-rgba=#84a0c6FF
 
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
@@ -519,13 +520,13 @@ client.background       #F8F8F2
 bar {
     font pango: Noto Mono for Powerline 11
     status_command bumblebee-status -m playerctl cpu memory battery  \
-        pasink pasource nic ping time dunstctl caffeine \
+        pasink pasource nic time dunstctl caffeine \
         -p cpu.theme.minwidth=6 -p cpu.theme.align=center \
         -p memory.theme.minwidth=28 -p memory.theme.align=center \
-        -p battery.theme.minwidth=5 -p battery.theme.align=center \
-        -p time.theme.minwidth=10 -p time.theme.align=center -p time.format="%H:%M" \
+        -p battery.theme.minwidth=4 -p battery.theme.align=center \
+        -p time.theme.minwidth=6 -p time.theme.align=center -p time.format="%H:%M" \
         -p nic.states=^down -p nic.exclude='lo,virbr,docker,vboxnet,veth,br,.*:avahi,CloudflareWARP' \
-        -p nic.format='{intf} {strength}' ping.address='1.1.1.1' \
+        -p nic.format='{strength}' \
         -p playerctl.format='{{artist}} - {{trunc(title, 8)}}  {{duration(position)}}/{{duration(mpris:length)}}' -p playerctl.hide=true \
         -t iceberg-dark-powerline
 
@@ -554,8 +555,7 @@ bar {
 
 ## rofi bindings fancy application menu ($mod+d /F9 optional disabled)
 
-bindsym $mod+d exec rofi -modi drun -show drun \
-		-config ~/.config/rofi/rofidmenu.rasi
+bindsym $mod+d exec ~/.config/rofi/launchers/type-1/launcher.sh
 
 #bindsym F9 exec rofi -modi drun -show drun \
 #		-config ~/.config/rofi/rofidmenu.rasi
