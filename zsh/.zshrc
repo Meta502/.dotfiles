@@ -121,3 +121,5 @@ alias yas='yay -Slq | fzf -m --preview ${QYAS} | xargs -ro  yay -S'
 alias par='pacman -Qqe | fzf -m --preview ${QPAR} | xargs -ro sudo pacman -Rns'
 alias yar='yay -Qqe | fzf -m --preview ${QYAR} | xargs -ro  yay -Rns'
 source /usr/share/nvm/init-nvm.sh
+
+alias magit='emacsclient -n -e \(magit-status\)'

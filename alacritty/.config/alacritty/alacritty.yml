@@ -1,7 +1,7 @@
 window: {
     padding: {
         x: 16,
-        y: 16
+        y: 4,
     },
     opacity: 0.85
 }
@@ -11,7 +11,7 @@ font: {
         family: "SauceCodePro Nerd Font Mono",
         style: "Regular"
     },
-    size: 10,
+    size: 9,
     scale_with_dpi: false
 }
 

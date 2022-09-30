@@ -9,7 +9,7 @@
 
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,window,pulse:/home/meta/.config/rofi-scripts/pulseaudio";
+	modi:                       "drun,window";
     show-icons:                 true;
     display-drun:               "";
     display-run:                "";

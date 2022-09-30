@@ -1,1 +1,2 @@
 xrandr --output HDMI-2 --mode 1920x1080 --refresh 120.00 --primary
+xrandr --output HDMI-1-2 --mode 1920x1080 --refresh 120.00 --primary

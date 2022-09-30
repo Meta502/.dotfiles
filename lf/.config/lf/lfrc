@@ -1,0 +1,13 @@
+# Basic Settings
+set mouse on
+set relativenumber on
+
+# Custom Functions
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
