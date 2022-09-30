@@ -1,0 +1,6 @@
+sudo isw -s 0x8e 100
+sudo isw -s 0x8f 100
+sudo isw -s 0x90 100
+sudo isw -s 0x78 100
+sudo isw -s 0x77 100
+sudo isw -s 0x76 100
